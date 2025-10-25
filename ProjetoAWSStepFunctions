@@ -12,7 +12,7 @@ flowchart TD
     D --> E(Backup-Order)
     E --> F([End])
     B -- Default --> G(permanec-order)
-    G --> F
+    G --> F([End])
 
 Componentes do Projeto
 
