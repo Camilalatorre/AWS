@@ -65,6 +65,33 @@ Para evoluir este projeto e atingir um nível de produção (DevOps), o próximo
 3.  **Otimização de Custos:** Analisar o uso de **EC2 Spot Instances** ou migração de partes da aplicação para **Lambda** (Serverless).
 
 ---
+# AWS Step Functions - Workflow de Pedido
 
+Este projeto foi desenvolvido como parte do desafio da DIO para consolidar o uso do AWS Step Functions.
+
+## 📘 Descrição
+O fluxo automatiza a validação e processamento de um pedido, usando estados `Choice`, `Task` e `Fail`.
+
+## 🧩 Estrutura do Workflow
+- **Start** → `IsOrderValida`
+- **Choice** → verifica `$.status`
+- **Se OK** → vai para `ProcessOrder`
+- **Faz backup → `Backup-Order`
+- **Senão** → vai para `Permance-order`
+
+## 🧰 Ferramentas
+- AWS Step Functions
+- Amazon States Language (ASL)
+- Interface visual do console AWS
+
+## 🗂️ Arquivos
+- `stepfunction-definition.json` → definição exportada da máquina de estados.
+- `workflow-diagram.png` → diagrama visual do fluxo.
+- `insights.md` → anotações sobre o processo.
+
+## 🚀 Como visualizar
+1. Acesse o [AWS Step Functions Console](https://eu-north-1.console.aws.amazon.com/states/home?region=eu-north-1#/v2/statemachines/getStarted)
+2. Clique em **Criar máquina de estado**.
+3. Escolha **Importar definição** e cole o conteúdo do arquivo `stepfunction-definition.json`.
 
 
