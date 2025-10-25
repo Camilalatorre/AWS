@@ -98,3 +98,4 @@ Observações e Aprendizados
     O controle via Choice state torna o fluxo flexível para diferentes caminhos de negócio.
 
     Utilizar S3 para backup traz durabilidade e proteção extra ao histórico de pedidos.
+![Fluxo Step Functions](stepfunctions_graph.png)
