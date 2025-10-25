@@ -1,0 +1,67 @@
+{
+  "StartAt": "Validar-Order",
+  "States": {
+    "Validar-Order": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:eu-north-1:160927904891:function:validar-order:$LATEST",
+        "Payload.$": "$"
+      },
+      "ResultPath": "$.valida",
+      "Next": "IsOrderValida"
+    },
+    "IsOrderValida": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.valida.Payload.status",
+          "StringEquals": "VALID",
+          "Next": "Processar-order"
+        }
+      ],
+      "Default": "permance-order"
+    },
+    "Processar-order": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:eu-north-1:160927904891:function:processar-order:$LATEST",
+        "Payload.$": "$.valida.Payload"
+      },
+      "ResultPath": "$.proc",
+      "Next": "Persist-Order"
+    },
+    "Persist-Order": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:eu-north-1:160927904891:function:Persist-order:$LATEST",
+        "Payload.$": "$.proc.Payload"
+      },
+      "ResultPath": "$.pers",
+      "Next": "Backup-Order"
+    },
+    "Backup-Order": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:eu-north-1:160927904891:function:Backup-order:$LATEST",
+        "Payload": {
+          "fileName.$": "$.pers.Payload.fileName",
+          "bucketOrigem": "viagemcamila-dados-origem",
+          "bucketBackup": "viagemcamila-dados-backup"
+        }
+      },
+      "End": true
+    },
+    "permance-order": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:eu-north-1:160927904891:function:permance-order:$LATEST"
+      },
+      "End": true
+    }
+  }
+}
