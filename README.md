@@ -69,29 +69,46 @@ Para evoluir este projeto e atingir um nível de produção (DevOps), o próximo
 
 Este projeto foi desenvolvido como parte do desafio da DIO para consolidar o uso do AWS Step Functions.
 
-## 📘 Descrição
+## Descrição
 O fluxo automatiza a validação e processamento de um pedido, usando estados `Choice`, `Task` e `Fail`.
 
-## 🧩 Estrutura do Workflow
+## Estrutura do Workflow
 - **Start** → `IsOrderValida`
 - **Choice** → verifica `$.status`
 - **Se OK** → vai para `ProcessOrder`
 - **Faz backup → `Backup-Order`
 - **Senão** → vai para `Permance-order`
 
-## 🧰 Ferramentas
+## Ferramentas
 - AWS Step Functions
 - Amazon States Language (ASL)
 - Interface visual do console AWS
 
-## 🗂️ Arquivos
+## Arquivos
 - `stepfunction-definition.json` → definição exportada da máquina de estados.
 - `workflow-diagram.png` → diagrama visual do fluxo.
 - `insights.md` → anotações sobre o processo.
 
-## 🚀 Como visualizar
+## Como visualizar
 1. Acesse o [AWS Step Functions Console](https://eu-north-1.console.aws.amazon.com/states/home?region=eu-north-1#/v2/statemachines/getStarted)
 2. Clique em **Criar máquina de estado**.
 3. Escolha **Importar definição** e cole o conteúdo do arquivo `stepfunction-definition.json`.
+
+# Desafio DIO - AWS Step Functions
+
+Este repositório contém o projeto desenvolvido durante o desafio da DIO, com objetivo de consolidar o uso de workflows automatizados com **AWS Step Functions**.
+
+## 🔗 Link do Step Function
+[Abrir no Console AWS (região eu-north-1)](https://eu-north-1.console.aws.amazon.com/states/home?region=eu-north-1#/v2/statemachines)
+
+*(É necessário login AWS para visualizar.)*
+
+## Objetivo
+- Aplicar conceitos de orquestração serverless com Step Functions.
+- Criar e documentar um fluxo simples com estados `Pass`, `Choice` e `Success`.
+## Estrutura do Repositório
+- `stepfunction-definition.json` → definição do fluxo em JSON exportado da AWS  
+- `images/stepflow-diagram.png` → diagrama visual do fluxo  
+- `insights.md` → anotações e aprendizados do desafio  
 
 
