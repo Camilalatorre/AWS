@@ -98,3 +98,5 @@ Observações e Aprendizados
     O controle via Choice state torna o fluxo flexível para diferentes caminhos de negócio.
 
     Utilizar S3 para backup traz durabilidade e proteção extra ao histórico de pedidos.
+
+https://eu-north-1.console.aws.amazon.com/go/view?arn=arn%3Aaws%3Aiam%3A%3A160927904891%3Arole%2Fservice-role%2FStepFunctions-ProjetoAWSCamila-role-neoo3ekf5&source=states
