@@ -1,0 +1,65 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation Template to create EC2, IAM user, S3 bucket
+
+Parameters:
+  InstanceType:
+    Type: String
+    Default: t3.micro
+    Description: EC2 instance type
+    AllowedValues:
+      - t3.micro
+
+Resources:
+  S3Bucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: s3-foundation-camila20251030
+
+  IAMGroup:
+    Type: 'AWS::IAM::Group'
+    Properties:
+      GroupName: GPO-ADMIN-LAB
+
+  IAMUser:
+    Type: 'AWS::IAM::User'
+    Properties:
+      UserName: cgl              # corrigido aqui para 'cgl'
+      Groups:
+        - !Ref IAMGroup
+
+  EC2SecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Enable SSH access
+      VpcId: vpc-073ff29cd2f16c4e2  # Use o VPC visto no seu painel
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/0
+
+  EC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: !Ref InstanceType
+      ImageId: ami-0bdd88bd06d16ba03 # Use o AMI válido da sua região
+      KeyName: modelo              # Key pair válido
+      SecurityGroupIds:
+        - !Ref EC2SecurityGroup
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          apt-get update
+          apt-get install -y python3-pip
+
+Outputs:
+  InstanceId:
+    Description: The Instance ID
+    Value: !Ref EC2Instance
+  S3BucketName:
+    Description: The name of the S3 bucket
+    Value: !Ref S3Bucket
+  IAMUserName:
+    Description: The IAM User Name
+    Value: !Ref IAMUser
+
