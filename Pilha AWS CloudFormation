@@ -1,0 +1,78 @@
+# ProjetoCloudCamila - Pilha AWS CloudFormation
+
+Este projeto contém um template AWS CloudFormation para provisionamento automatizado de recursos essenciais em nuvem, utilizando o conceito de pilhas (stacks).
+
+## Recursos criados
+
+- S3 Bucket: Armazenamento de arquivos, backups e logs. O bucket criado tem nome exclusivo.
+- IAM Group & User: Grupo de administração (GPO-ADMIN-LAB) e usuário IAM chamado cgl.
+- EC2 Instance: Máquina virtual Amazon Linux, pronta para testes e aplicações.
+- Security Group: Libera acesso SSH (porta 22) para a instância EC2.
+- Outputs: Retorna identificadores dos principais recursos ao final da criação.
+
+## Processo realizado
+
+1. **Definição do template YAML**
+   - O arquivo 04-EC2_S3_UserGroup.yaml especifica todos os recursos necessários e seus parâmetros conforme boas práticas do AWS CloudFormation.
+   - Foram corrigidos problemas comuns consultando mensagens de erro do Console AWS, como nomes de bucket duplicados, AMI inválida, VPC inexistente e tipo de instância incompatível.
+
+2. **Validação e ajustes**
+   - Busquei no painel AWS o VPC ID válido, um AMI público para a região selecionada e um Key Pair existente para acesso à EC2.
+   - Ajustei nomes e referências dos recursos para o padrão do AWS CloudFormation, evitando conflitos e erros de sintaxe.
+
+3. **Implantação da pilha**
+   - Fiz upload do template no serviço CloudFormation, preenchendo os parâmetros solicitados.
+   - Acompanhei o progresso da criação dos recursos, resolvendo as falhas encontradas.
+   - Após sucesso, conferi que todos os itens foram criados conforme esperado, incluindo EC2, S3, usuário e grupo IAM.
+
+4. **Permissões do IAM**
+   - A política de permissões foi atribuída **manualmenteno console AWS**, depois da criação da pilha.
+   - Escolhi a política `ReadOnlyAccess` para o grupo IAM (`GPO-ADMIN-LAB`), garantindo que todos os usuários do grupo herdem esse acesso.
+
+5. **Acesso e validação**
+   - Realizei o acesso SSH usando o Key Pair gerado, corrigindo as permissões do arquivo (`chmod 400 modelo.pem`).
+   - Validei no Console AWS (EC2, IAM, S3) e salvei prints de cada etapa importante para evidenciar resultados.
+
+## Problemas enfrentados e soluções
+
+- **Erro de SSH (Permission denied):**
+  - Correção de permissões da chave (`chmod 400`) e uso do usuário certo (`ec2-user` para Amazon Linux).
+  - Testes necessários até encontrar a combinação ideal de IP da instância e Key Pair correto.
+- **Chave PEM não encontrada ou inválida:**
+  - Checagem do diretório correto, ajuste do caminho e conferência do Key Pair vinculado à instância.
+- **Bucket S3 com nome duplicado:**
+  - Alteração do nome para garantir sua exclusividade global e uso de letras minúsculas conforme exigido.
+- **Grupo IAM sem permissão:**
+  - Inclusão de política `ReadOnlyAccess` de forma manual pelo Console após a criação da pilha.
+
+## Como usar
+
+- Clone este repositório.
+- No Console AWS CloudFormation, selecione "Criar Pilha com novo recurso (com template)".
+- Faça upload do arquivo YAML disponível neste repositório.
+- Preencha os parâmetros necessários (tipo da instância, VPC ID, chave SSH).
+- Aguarde a criação dos recursos.
+- Valide a criação dos recursos no Console AWS (EC2, IAM, S3).
+- Atribua permissões ao grupo IAM manualmente, se necessário.
+
+## Prints/documentação visual
+
+Acesse a pasta `/images` para capturas do processo:
+- Console EC2 mostrando recursos criados.
+- Página do IAM evidenciando usuário, grupo e permissões.
+- Terminal de SSH bem-sucedido e correções aplicadas.
+
+## Pré-requisitos
+
+- Conta AWS ativa e permissões para EC2, IAM e S3.
+- Par de chave SSH criado (Key Pair) para acesso à instância EC2.
+- VPC ID válido (obtido no Console AWS).
+- AMI válida para a região (obtida no Console AWS).
+
+## Id da Pilha
+
+[Link direto à sua pilha CloudFormation](https://us-east-1.console.aws.amazon.com/go/view?arn=arn%3Aaws%3Acloudformation%3Aus-east-1%3A160927904891%3Astack%2Fcloudfcamia1%2F2ad98500-b58d-11f0-84d3-0ee4edc8c2cf&source=cloudformation)
+
+## Licença
+
+MIT
