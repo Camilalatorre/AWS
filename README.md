@@ -69,22 +69,22 @@ Para evoluir este projeto e atingir um nível de produção (DevOps), o próximo
 
 Este projeto foi desenvolvido como parte do desafio da DIO para consolidar o uso do AWS Step Functions.
 
-## 📘 Descrição
+## Descrição
 O fluxo automatiza a validação e processamento de um pedido, usando estados `Choice`, `Task` e `Fail`.
 
-## 🧩 Estrutura do Workflow
+## Estrutura do Workflow
 - **Start** → `IsOrderValida`
 - **Choice** → verifica `$.status`
 - **Se OK** → vai para `ProcessOrder`
 - **Faz backup → `Backup-Order`
 - **Senão** → vai para `Permance-order`
 
-## 🧰 Ferramentas
+## Ferramentas
 - AWS Step Functions
 - Amazon States Language (ASL)
 - Interface visual do console AWS
 
-## 🗂️ Arquivos
+## Arquivos
 - `stepfunction-definition.json` → definição exportada da máquina de estados.
 - `workflow-diagram.png` → diagrama visual do fluxo.
 - `insights.md` → anotações sobre o processo.
@@ -93,5 +93,63 @@ O fluxo automatiza a validação e processamento de um pedido, usando estados `C
 1. Acesse o [AWS Step Functions Console](https://eu-north-1.console.aws.amazon.com/states/home?region=eu-north-1#/v2/statemachines/getStarted)
 2. Clique em **Criar máquina de estado**.
 3. Escolha **Importar definição** e cole o conteúdo do arquivo `stepfunction-definition.json`.
+
+# ProjetoCloudCamila - Pilha AWS CloudFormation
+
+Este projeto contém um template AWS CloudFormation para provisionamento automatizado de recursos essenciais em nuvem, utilizando o conceito de pilhas (stacks).
+
+## Recursos criados
+
+- **S3 Bucket**: Armazenamento de arquivos, backups e logs. O bucket criado tem nome exclusivo.
+- **IAM Group & User**: Grupo de administração (`GPO-ADMIN-LAB`) e usuário IAM chamado `cgl`.
+- **EC2 Instance**: Máquina virtual Ubuntu, tipo `t3.micro`, pronta para testes e aplicações.
+- **Security Group**: Libera acesso SSH (`porta 22`) para a instância EC2.
+- **Outputs**: Retorna identificadores dos principais recursos ao final da criação.
+
+---
+
+## Processo realizado
+
+1. **Definição do template YAML**
+   - O arquivo `template-cloudformation.yaml` especifica todos os recursos necessários e seus parâmetros conforme boas práticas do AWS CloudFormation.
+   - Foram corrigidos problemas comuns consultando mensagens de erro do Console AWS, como nomes de bucket duplicados, AMI inválida, VPC inexistente e tipo de instância incompatível.
+
+2. **Validação e ajustes**
+   - Busquei no painel AWS o VPC ID válido, um AMI Ubuntu público para a região, e o Key Pair existente para acesso à EC2.
+   - Ajustei nomes e referências dos recursos para o padrão do AWS CloudFormation, evitando conflitos e erros de sintaxe.
+
+3. **Implantação da pilha**
+   - Fiz upload do template no serviço CloudFormation, preenchendo os parâmetros solicitados.
+   - Acompanhei o progresso da criação dos recursos, resolvendo as falhas encontradas.
+   - Após sucesso, conferi que todos os itens foram criados conforme esperado, com instância EC2, bucket S3, usuário e grupo IAM.
+
+4. **Documentação**
+   - Salvei prints e registros do processo para referência futura e para inclusão neste repositório.
+
+---
+
+## Como usar
+
+1. Clone este repositório.
+2. No Console AWS CloudFormation, selecione `Criar Pilha com novo recurso (com template)`.
+3. Faça upload do arquivo YAML disponível neste repositório.
+4. Preencha os parâmetros (tipo da instância, VPC ID, chave SSH).
+5. Aguarde a criação dos recursos.
+6. Valide a criação dos recursos no Console AWS (EC2, IAM, S3).
+
+---
+
+## Pré-requisitos
+
+- Conta AWS ativa e permissões para EC2, IAM e S3.
+- Par de chave SSH criado (`Key Pair`) para acesso à instância EC2.
+- VPC ID válido (obtido no Console AWS).
+- AMI válida para a região (obtida no Console AWS).
+
+---
+
+## Id da Pilha 
+https://us-east-1.console.aws.amazon.com/go/view?arn=arn%3Aaws%3Acloudformation%3Aus-east-1%3A160927904891%3Astack%2Fcloudfcamia1%2F2ad98500-b58d-11f0-84d3-0ee4edc8c2cf&source=cloudformation
+
 
 
