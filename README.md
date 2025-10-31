@@ -169,6 +169,77 @@ Acesse a pasta `/images` para capturas do processo:
 
 [Link direto à sua pilha CloudFormation](https://us-east-1.console.aws.amazon.com/go/view?arn=arn%3Aaws%3Acloudformation%3Aus-east-1%3A160927904891%3Astack%2Fcloudfcamia1%2F2ad98500-b58d-11f0-84d3-0ee4edc8c2cf&source=cloudformation)
 
+# AWS Lambda + S3: Processamento Automatizado
+
+Este repositório contém o laboratório de automação de tarefas usando AWS Lambda e S3, desenvolvido como desafio prático para consolidar conhecimentos em computação sem servidor (serverless) e armazenamento de arquivos.
+
+## Objetivo
+
+Automatizar o processamento e movimentação de arquivos entre buckets S3 usando uma função Lambda disparada por eventos S3. O repositório traz anotações, código fonte e insights obtidos durante o desenvolvimento para servir como material de apoio em futuros estudos.
+
+## Arquitetura
+
+- **Bucket de origem**: Armazena arquivos enviados, que disparam eventos S3.
+- **AWS Lambda**: Função que processa o evento e copia o arquivo recebido para o bucket de destino.
+- **Bucket de destino** (`bucketdestinoprocessamentocamila`): Recebe arquivos que foram processados pela Lambda.
+- **IAM Role**: Permissões configuradas para a Lambda acessar ambos os buckets e enviar logs para o CloudWatch.
+
+## Passo a passo de implementação
+
+1. **Crie os buckets S3**  
+   - Origem: recebe uploads para disparar o fluxo.  
+   - Destino: armazena arquivos processados.
+
+2. **Configure IAM Role**  
+   - AmazonS3FullAccess para ler e gravar arquivos.  
+   - CloudWatchLogsFullAccess para monitorar logs de execução.
+
+3. **Desenvolva a Lambda**  
+   - Use Python.  
+   - Código responsável por receber o evento S3, identificar o arquivo e copiar para o bucket destino.
+
+4. **Configure gatilho no bucket de origem**  
+   - Adicione trigger do tipo S3 (ObjectCreated) para acionar a Lambda ao enviar arquivos.
+
+5. **Teste a automação**  
+   - Envie arquivos ao bucket de origem e confira no bucket destino e nos logs do CloudWatch se o processo ocorreu com sucesso.
+## Código principal
+
+import json
+import boto3
+
+def lambda_handler(event, context):
+record = event['Records']
+bucket_name = record['s3']['bucket']['name']
+object_key = record['s3']['object']['key']
+bucket_destino = 'bucketdestinoprocessamentocamila'
+
+
+
+## Teste
+
+- Manualmente simule eventos S3 com o formato correto para testes no console da Lambda.  
+- Recomenda-se testar o fluxo real enviando arquivos para o bucket de origem.
+
+## Insights e boas práticas
+
+- Documente todo o fluxo, incluindo permissões e arquitetura.  
+- Utilize logs no CloudWatch para depuração.  
+- Mantenha permissões restritas e seguras na IAM Role.  
+- Sempre teste com arquivo real para garantir que não ocorram erros de inexistência (404).
+
+
+---
+
+## Acesso e Avaliação
+
+Para avaliar este projeto, compartilho o código fonte da função Lambda e instruções completas para replicação do ambiente. O avaliador poderá:
+- Revisar o código em `lambda_function.py`.
+- Criar os buckets S3 e IAM Role conforme descrito.
+- Configurar o disparo do Lambda via S3.
+- Testar o fluxo automatizado enviando arquivos reais.
+
+Este material garante transparência, replicabilidade e compreensão completa do trabalho realizado.
 
 
 
