@@ -1,0 +1,16 @@
+{
+  "Records": [
+    {
+      "eventName": "ObjectCreated:Put",
+      "s3": {
+        "bucket": {
+          "name": "lambdacamila"
+        },
+        "object": {
+          "key": "Teste S3 Dio me.txt"
+        }
+      }
+    }
+  ]
+}
+
