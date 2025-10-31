@@ -239,7 +239,6 @@ Para avaliar este projeto, compartilho o código fonte da função Lambda e inst
 - Configurar o disparo do Lambda via S3.
 - Testar o fluxo automatizado enviando arquivos reais.
 
-Este material garante transparência, replicabilidade e compreensão completa do trabalho realizado.
 
 
 
